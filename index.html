@@ -7,257 +7,382 @@
     <!-- Add Google Font link -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* --- Light Mode Styles (Default) --- */
+        /* --- General Styles --- */
         body {
-            /* Use the new font */
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
+            margin: 0; /* Remove default body margin */
+            padding: 20px; /* Add padding instead */
+            background-color: #f4f7f6; /* Soft background */
             color: #333;
             transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
+            box-sizing: border-box; /* Include padding in element's total width and height */
         }
         .container {
-            max-width: 800px; /* Wider to accommodate calendar */
+            max-width: 900px; /* Make container a bit wider */
             margin: 0 auto;
             background: #fff;
-            /* Slightly enhanced shadow for depth */
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Enhanced, softer shadow */
+            padding: 30px; /* More internal padding */
+            border-radius: 12px; /* More rounded corners */
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         h1, h2 {
-            color: #555;
+            color: #4a4a4a; /* Slightly darker heading color */
             border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-top: 20px;
+            padding-bottom: 12px; /* More padding below heading */
+            margin-top: 25px; /* More space above heading */
             transition: color 0.3s ease, border-color 0.3s ease;
         }
-        h1 { margin-top: 0; }
+        h1 {
+            margin-top: 0;
+            text-align: center; /* Center the main title */
+            color: #333; /* Even darker for main title */
+        }
 
+        /* --- Mode Toggle --- */
         .mode-toggle-container {
              text-align: right;
-             margin-bottom: 15px;
+             margin-bottom: 20px; /* More space below toggle */
         }
 
         .mode-toggle-button {
-            padding: 5px 10px;
-            background-color: #ccc;
-            color: #333;
+            padding: 8px 15px; /* More padding */
+            background-color: #e0e0e0; /* Lighter grey */
+            color: #555;
             border: none;
-            border-radius: 4px;
+            border-radius: 20px; /* Pill shape */
             cursor: pointer;
             font-size: 0.9rem;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 500; /* Medium weight */
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
         }
         .mode-toggle-button:hover {
-            background-color: #bbb;
+            background-color: #d5d5d5;
+            transform: translateY(-1px); /* Slight lift */
         }
+         .mode-toggle-button:active {
+             transform: translateY(0); /* Press effect */
+         }
 
 
+        /* --- Sections --- */
         .add-lecture, .details-section, .calendar-display {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            background-color: #e9e9e9;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            margin-bottom: 25px; /* More space between sections */
+            padding: 20px; /* More internal padding */
+            border: none; /* Remove border */
+            background-color: #f9f9f9; /* Lighter background for sections */
+            border-radius: 8px; /* Consistent border radius */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
+            margin-bottom: 8px; /* More space below label */
+            font-weight: 500; /* Medium weight */
+            color: #555;
             transition: color 0.3s ease;
         }
         input[type="text"], input[type="date"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
+            width: calc(100% - 24px); /* Adjusted width */
+            padding: 12px; /* More padding */
+            margin-bottom: 15px; /* More space below input */
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 1rem;
             background-color: #fff;
             color: #333;
-             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
         }
          input[type="date"] {
-             width: auto;
+             width: auto; /* Allow date picker to size naturally */
+             min-width: 150px; /* Minimum width for date picker */
              margin-right: 10px;
          }
+        input[type="text"]:focus, input[type="date"]:focus {
+             outline: none;
+             border-color: #007bff;
+             box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
 
         button:not(.mode-toggle-button):not(.calendar-nav-button):not(.delete-button) { /* Target action buttons */
             display: block;
             width: 100%;
-            padding: 10px 12px; /* Adjusted padding slightly */
-            background-color: #5cb85c;
+            padding: 12px 15px; /* More padding */
+            background-color: #007bff; /* Primary blue color */
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
-            font-weight: 600; /* Use bolder font weight if available */
-            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease; /* Added transform and shadow */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Blue shadow */
         }
         button:not(.mode-toggle-button):not(.calendar-nav-button):not(.delete-button):hover {
-            background-color: #4cae4c;
-            transform: translateY(-1px); /* Slight lift on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+            background-color: #0056b3; /* Darker blue */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         }
+         button:not(.mode-toggle-button):not(.calendar-nav-button):not(.delete-button):active {
+             transform: translateY(0); /* Press effect */
+             box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Reset shadow on active */
+         }
+
 
         .delete-button {
-             padding: 4px 8px;
+             padding: 6px 10px; /* More padding */
              background-color: #dc3545; /* Red */
              color: white;
              border: none;
              border-radius: 4px;
              cursor: pointer;
              font-size: 0.8rem;
-             margin-left: 10px;
+             margin-left: 15px; /* More space */
              transition: background-color 0.2s ease;
-             float: right; /* Position to the right */
+             float: right;
+             font-weight: 500;
         }
         .delete-button:hover {
             background-color: #c82333;
         }
 
 
-        /* Calendar specific styles */
+        /* --- Calendar specific styles --- */
+        .calendar-display {
+            /* Calendar section background/shadow handled by .calendar-display above */
+        }
+
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px; /* More space below header */
+             padding-bottom: 10px; /* Add padding below header */
+             border-bottom: 1px solid #eee; /* Separator line */
         }
-        .calendar-header button {
-            padding: 5px 10px;
-            font-size: 1rem;
+        .calendar-header h3 {
+             margin: 0;
+             font-size: 1.4rem; /* Larger month/year text */
+             font-weight: 600;
+             color: #4a4a4a;
+             transition: color 0.3s ease;
+        }
+        .calendar-header button.calendar-nav-button {
+            padding: 8px 12px; /* Padding for nav buttons */
+            font-size: 1.1rem; /* Slightly larger arrow text */
             cursor: pointer;
              border-radius: 4px;
-             border: 1px solid #ccc;
-             background-color: #f9f9f9;
-             transition: background-color 0.2s ease, border-color 0.2s ease;
+             border: 1px solid #ccc; /* Simple border */
+             background-color: #fff; /* White background */
+             color: #555;
+             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
         }
-         .calendar-header button:hover {
-             background-color: #eee;
+         .calendar-header button.calendar-nav-button:hover {
+             background-color: #f0f0f0;
+             border-color: #bbb;
+             color: #333;
          }
+          .calendar-header button.calendar-nav-button:active {
+             background-color: #e0e0e0;
+          }
+
 
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr); /* 7 days a week */
-            gap: 5px; /* Space between cells */
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px; /* Increased space between cells */
             text-align: center;
         }
 
         .calendar-day-header {
-            font-weight: bold;
-            padding: 8px 0;
-            background-color: #ddd;
+            font-weight: 500; /* Medium weight */
+            padding: 10px 0; /* More padding */
+            background-color: #e0e0e0; /* Lighter background */
             border-radius: 4px;
-             transition: background-color 0.3s ease;
+             color: #555;
+             transition: background-color 0.3s ease, color 0.3s ease;
+             font-size: 0.9rem; /* Slightly smaller text */
         }
 
         .calendar-day {
-            padding: 10px 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff; /* Default background */
+            padding: 15px 5px; /* More vertical padding */
+            border: none; /* Remove border */
+            border-radius: 8px; /* Softer corners */
+            background-color: #ffffff; /* White background */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle initial shadow */
             cursor: pointer;
-            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
             font-size: 0.9em;
-            position: relative; /* Needed for positioning percentage */
+            position: relative;
+            display: flex; /* Use flex to align content */
+            flex-direction: column; /* Stack day number and percentage */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 60px; /* Ensure minimum height for square-ish look */
         }
-        .calendar-day:hover {
-            background-color: #f0f0f0;
-            transform: translateY(-2px);
-        }
-         .calendar-day.empty {
-             background-color: #e9e9e9;
-             cursor: default;
-             border-color: #ddd;
-         }
-         .calendar-day.empty:hover {
-             background-color: #e9e9e9; /* No hover effect on empty cells */
-             transform: none;
-         }
-         .calendar-day.today {
-             border-color: #007bff;
-             box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+         /* Ensure calendar grid items maintain aspect ratio roughly */
+         .calendar-grid > div {
+             aspect-ratio: 1 / 1; /* Make cells square */
+             display: flex; /* Re-apply flex for centering */
+             flex-direction: column;
+             justify-content: center;
+             align-items: center;
          }
 
+
+        .calendar-day:hover {
+            background-color: #f5f5f5;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
+            transform: translateY(-2px);
+        }
+         .calendar-day:active {
+             transform: translateY(0); /* Press effect */
+             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Reset shadow on active */
+         }
+
+
+         .calendar-day.empty {
+             background-color: #e9e9e9; /* Different light grey */
+             cursor: default;
+             box-shadow: none; /* No shadow on empty cells */
+         }
+         .calendar-day.empty:hover {
+             background-color: #e9e9e9;
+             transform: none;
+             box-shadow: none;
+         }
+         .calendar-day.today {
+             border: 2px solid #007bff; /* Primary color border */
+             box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); /* Blue glow */
+             background-color: #e9f2ff; /* Light blue background */
+         }
+         .calendar-day.today:hover {
+             background-color: #dbe8ff; /* Darker light blue on hover */
+         }
+         .calendar-day.selected {
+             outline: 2px solid orange; /* Visual indicator for selected day */
+             outline-offset: -2px; /* Prevent outline from pushing other cells */
+         }
+         .calendar-day.selected.today {
+              outline-color: purple; /* Different color if selected day is also today */
+         }
+
+
         .day-number {
-            font-weight: bold;
+            font-weight: 600; /* Bolder */
             display: block;
-            margin-bottom: 3px;
-            color: #333; /* Default color */
+            margin-bottom: 5px; /* More space below number */
+            color: #333;
              transition: color 0.3s ease;
+             font-size: 1.1em; /* Slightly larger day number */
         }
 
         .completion-percentage {
-            font-size: 0.8em;
+            font-size: 0.85em; /* Slightly larger percentage text */
             color: #666; /* Default percentage text color */
             display: block;
-            margin-top: 3px;
+            margin-top: 0; /* Remove margin-top */
             transition: color 0.3s ease;
         }
+        .calendar-day.percentage-100 .completion-percentage,
+         .calendar-day.percentage-high .completion-percentage,
+         .calendar-day.percentage-mid .completion-percentage,
+         .calendar-day.percentage-low .completion-percentage,
+         .calendar-day.percentage-0 .completion-percentage {
+             /* Override default color for better contrast on colored backgrounds */
+             color: #333;
+         }
+         .calendar-day.percentage-100.dark-mode .completion-percentage,
+         .calendar-day.percentage-high.dark-mode .completion-percentage,
+         .calendar-day.percentage-mid.dark-mode .completion-percentage,
+         .calendar-day.percentage-low.dark-mode .completion-percentage,
+         body.dark-mode .calendar-day.percentage-0 .completion-percentage { /* Corrected selector */
+              color: #e0e0e0; /* Lighter color in dark mode */
+         }
+          .calendar-day.percentage-100 .day-number,
+         .calendar-day.percentage-high .day-number,
+         .calendar-day.percentage-mid .day-number,
+         .calendar-day.percentage-low .day-number,
+         .calendar-day.percentage-0 .day-number {
+              color: #333; /* Ensure day number is readable */
+         }
+          body.dark-mode .calendar-day.percentage-100 .day-number, /* Corrected selectors */
+         body.dark-mode .calendar-day.percentage-high .day-number,
+         body.dark-mode .calendar-day.percentage-mid .day-number,
+         body.dark-mode .calendar-day.percentage-low .day-number,
+         body.dark-mode .calendar-day.percentage-0 .day-number {
+              color: #eee; /* Ensure day number is readable in dark mode */
+         }
+
 
         /* --- Percentage color coding for the DAY CELL BACKGROUND --- */
         .calendar-day.percentage-0 {
-             background-color: #ffdddd; /* Light Red */
-             border-color: #dc3545; /* Red border */
+             background-color: #ffebeb; /* Very light red */
         }
         .calendar-day.percentage-low {
-            background-color: #fff3cd; /* Light Yellow/Orange */
-            border-color: #ffc107; /* Yellow/Orange border */
+            background-color: #fff8e1; /* Very light orange */
         }
         .calendar-day.percentage-mid {
-            background-color: #d4edda; /* Light Green */
-            border-color: #28a745; /* Green border */
+            background-color: #e8f5e9; /* Very light green */
         }
-         /* Optional: A different style for high completion but not 100% */
         .calendar-day.percentage-high {
-            background-color: #cfe2ff; /* Light Blue */
-            border-color: #007bff; /* Blue border */
+            background-color: #e3f2fd; /* Very light blue (lighter than today) */
         }
         .calendar-day.percentage-100 {
-            background-color: #c3e6cb; /* Slightly stronger light green */
-            border-color: #28a745; /* Strong Green border */
-            font-weight: bold;
+            background-color: #c8e6c9; /* Light green */
         }
+         /* Optional: Add a subtle border based on completion */
+         .calendar-day.percentage-0 { border-bottom: 3px solid #ef9a9a; } /* Light red border */
+         .calendar-day.percentage-low { border-bottom: 3px solid #ffe082; } /* Light orange border */
+         .calendar-day.percentage-mid { border-bottom: 3px solid #a5d6a7; } /* Light green border */
+         .calendar-day.percentage-high { border-bottom: 3px solid #90caf9; } /* Light blue border */
+         .calendar-day.percentage-100 { border-bottom: 3px solid #81c784; } /* Green border */
 
 
+        /* --- Details Section --- */
         #selectedDateDisplay {
             margin-top: 15px;
+            margin-bottom: 15px; /* More space below date display */
             color: #333;
-            font-size: 1.2em;
+            font-size: 1.3em; /* Slightly larger */
+            font-weight: 600;
             transition: color 0.3s ease;
+            text-align: center; /* Center the selected date text */
         }
 
         #lecturesOnSelectedDate div {
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
+            border: 1px solid #eee; /* Softer border */
+            background-color: #fff; /* White background */
             padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-             transition: background-color 0.3s ease, border-color 0.3s ease;
-             position: relative; /* Needed for delete button float */
+            margin-bottom: 12px; /* More space between lecture items */
+            border-radius: 8px; /* Consistent radius */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
+             position: relative;
         }
+         #lecturesOnSelectedDate div:hover {
+             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Enhance shadow on hover */
+         }
+
          #lecturesOnSelectedDate h3 {
             margin-top: 0;
-            margin-bottom: 5px;
+            margin-bottom: 8px; /* More space below lecture title */
             color: #333;
              transition: color 0.3s ease;
-             margin-right: 60px; /* Make space for the delete button */
+             margin-right: 70px; /* Make space for the delete button */
+             font-size: 1.1em; /* Slightly smaller lecture title */
+             font-weight: 500;
         }
         #lecturesOnSelectedDate p {
-            margin: 5px 0;
-            font-size: 0.9em;
-            color: #666;
+            margin: 8px 0 0; /* More space above entry date */
+            font-size: 0.85em; /* Slightly larger entry date text */
+            color: #777; /* Softer color */
              transition: color 0.3s ease;
         }
 
@@ -265,20 +390,21 @@
         .reminder-item {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 8px; /* More space between reminders */
             cursor: pointer;
-            padding: 5px; /* Add some padding */
-            border-radius: 4px; /* Add border-radius */
-            transition: background-color 0.2s ease; /* Add transition for hover */
+            padding: 8px; /* Add more padding */
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
         }
 
         .reminder-item:hover {
-             background-color: #eee; /* Light background on hover */
+             background-color: #f9f9f9; /* Lighter background on hover */
         }
 
         .reminder-item input[type="checkbox"] {
-            margin-right: 8px;
+            margin-right: 10px; /* More space */
             cursor: pointer;
+            transform: scale(1.1); /* Slightly larger checkbox */
         }
 
         .reminder-item label {
@@ -286,28 +412,32 @@
              font-weight: normal;
              cursor: pointer;
              flex-grow: 1;
+             color: #555; /* Default reminder text color */
+             font-size: 0.95em;
         }
 
         .reminder-item.completed label {
             text-decoration: line-through;
-            color: #888;
+            color: #999; /* Lighter grey for completed */
              transition: color 0.3s ease;
         }
 
 
         /* --- Dark Mode Styles --- */
         body.dark-mode {
-            background-color: #1e1e1e;
+            background-color: #282c34; /* Darker background */
             color: #e0e0e0;
         }
          body.dark-mode .container {
-            background: #2d2d2d;
-            /* Adjust shadow for dark mode */
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            background: #3b4048; /* Darker container */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Darker shadow */
          }
-         body.dark-mode h1, body.dark-mode h2 {
-            color: #bbbbbb;
-            border-color: #444;
+         body.dark-mode h1 {
+             color: #f0f0f0; /* Lighter main title */
+         }
+         body.dark-mode h2 {
+            color: #cfcfcf; /* Lighter headings */
+            border-color: #555;
          }
          body.dark-mode .mode-toggle-button {
              background-color: #555;
@@ -316,13 +446,19 @@
          body.dark-mode .mode-toggle-button:hover {
              background-color: #666;
          }
-         body.dark-mode .calendar-header button {
+         body.dark-mode .calendar-header button.calendar-nav-button {
              background-color: #4a4a4a;
              border-color: #666;
              color: #eee;
          }
-          body.dark-mode .calendar-header button:hover {
+          body.dark-mode .calendar-header button.calendar-nav-button:hover {
              background-color: #5a5a5a;
+             border-color: #777;
+             color: #fff;
+          }
+          body.dark-mode .calendar-header h3 {
+              color: #cfcfcf;
+              border-color: #555;
           }
          body.dark-mode .calendar-day-header {
              background-color: #555;
@@ -330,74 +466,113 @@
          }
 
          body.dark-mode .add-lecture, body.dark-mode .details-section, body.dark-mode .calendar-display {
-            background-color: #3a3a3a;
-            border-color: #555;
+            background-color: #4a4f58; /* Darker sections */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Darker subtle shadow */
          }
          body.dark-mode label {
              color: #e0e0e0;
          }
          body.dark-mode input[type="text"], body.dark-mode input[type="date"] {
-            background-color: #4a4a4a;
+            background-color: #5b626e; /* Darker input fields */
             color: #e0e0e0;
-            border-color: #666;
+            border-color: #777;
          }
+         body.dark-mode input[type="text"]:focus, body.dark-mode input[type="date"]:focus {
+             border-color: #0099ff;
+             box-shadow: 0 0 5px rgba(0, 153, 255, 0.3);
+         }
+
          body.dark-mode .calendar-day {
-             background-color: #4a4a4a; /* Default dark mode day cell background */
-             border-color: #666;
+             background-color: #5b626e; /* Darker day cell background */
+             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
              color: #ccc; /* Default text color */
          }
          body.dark-mode .calendar-day:hover {
-             background-color: #5a5a5a;
+             background-color: #6a707c; /* Darker hover */
+             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
          }
          body.dark-mode .calendar-day.empty {
-             background-color: #3a3a3a;
-             border-color: #555;
+             background-color: #4a4f58; /* Match section background */
+             box-shadow: none;
          }
          body.dark-mode .calendar-day.empty:hover {
-             background-color: #3a3a3a;
+             background-color: #4a4f58;
              transform: none;
+             box-shadow: none;
          }
          body.dark-mode .calendar-day.today {
-             border-color: #0099ff; /* Brighter blue for dark mode */
-             box-shadow: 0 0 5px rgba(0, 153, 255, 0.5);
+             border-color: #0099ff; /* Brighter blue border */
+             box-shadow: 0 0 8px rgba(0, 153, 255, 0.5); /* Brighter blue glow */
+             background-color: #3a4a5a; /* Dark blue background */
          }
+          body.dark-mode .calendar-day.today:hover {
+             background-color: #4a5a6a; /* Darker dark blue on hover */
+         }
+         body.dark-mode .calendar-day.selected {
+              outline-color: orange; /* Visual indicator for selected day in dark mode */
+         }
+          body.dark-mode .calendar-day.selected.today {
+              outline-color: plum; /* Different color if selected day is also today in dark mode */
+          }
+
+
          body.dark-mode .day-number {
              color: #eee;
          }
          body.dark-mode .completion-percentage {
              color: #bbb; /* Default dark mode percentage text color */
          }
+         /* Dark mode percentage text colors override */
+         body.dark-mode .calendar-day.percentage-0 .completion-percentage,
+         body.dark-mode .calendar-day.percentage-low .completion-percentage,
+         body.dark-mode .calendar-day.percentage-mid .completion-percentage,
+         body.dark-mode .calendar-day.percentage-high .completion-percentage,
+         body.dark-mode .calendar-day.percentage-100 .completion-percentage {
+              color: #e0e0e0; /* Lighter color in dark mode */
+         }
+          body.dark-mode .calendar-day.percentage-0 .day-number,
+         body.dark-mode .calendar-day.percentage-low .day-number,
+         body.dark-mode .calendar-day.percentage-mid .day-number,
+         body.dark-mode .calendar-day.percentage-high .day-number,
+         body.dark-mode .calendar-day.percentage-100 .day-number {
+              color: #eee; /* Ensure day number is readable in dark mode */
+         }
+
 
          /* --- Dark mode percentage color coding for the DAY CELL BACKGROUND --- */
          body.dark-mode .calendar-day.percentage-0 {
-             background-color: #5a3a3a; /* Darker Red */
-             border-color: #ff6666; /* Lighter Red border */
+             background-color: #5a3a3a; /* Dark red */
          }
          body.dark-mode .calendar-day.percentage-low {
-            background-color: #5a503a; /* Darker Yellow/Orange */
-            border-color: #ffdb7d; /* Lighter Yellow/Orange border */
+            background-color: #6a503a; /* Dark orange */
          }
          body.dark-mode .calendar-day.percentage-mid {
-            background-color: #3a5a3a; /* Darker Green */
-            border-color: #77dd77; /* Lighter Green border */
+            background-color: #4a6a4a; /* Dark green */
          }
-          /* Optional: Dark mode high completion but not 100% */
-         body.dark-mode .calendar-day.percentage-high {
-            background-color: #3a4a5a; /* Darker Blue */
-            border-color: #66b3ff; /* Lighter Blue border */
+          body.dark-mode .calendar-day.percentage-high {
+            background-color: #3a4a5a; /* Dark blue (different from today) */
          }
          body.dark-mode .calendar-day.percentage-100 {
-            background-color: #4a6a4a; /* Slightly stronger dark green */
-            border-color: #77dd77; /* Strong Lighter Green border */
+            background-color: #5a7a5a; /* Darker green */
          }
+         /* Dark mode subtle border based on completion */
+         body.dark-mode .calendar-day.percentage-0 { border-bottom: 3px solid #ff8a80; } /* Red border */
+         body.dark-mode .calendar-day.percentage-low { border-bottom: 3px solid #ffd54f; } /* Orange border */
+         body.dark-mode .calendar-day.percentage-mid { border-bottom: 3px solid #81c784; } /* Green border */
+         body.dark-mode .percentage-high { border-bottom: 3px solid #64b5f6; } /* Blue border */
+         body.dark-mode .calendar-day.percentage-100 { border-bottom: 3px solid #66bb6a; } /* Lighter green border */
 
 
          body.dark-mode #selectedDateDisplay {
             color: #e0e0e0;
          }
          body.dark-mode #lecturesOnSelectedDate div {
-            background-color: #4a4a4a;
-            border-color: #666;
+            background-color: #5b626e; /* Darker lecture item background */
+            border-color: #777;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+         }
+         body.dark-mode #lecturesOnSelectedDate div:hover {
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
          }
          body.dark-mode #lecturesOnSelectedDate h3 {
             color: #eeeeee;
@@ -405,18 +580,23 @@
          body.dark-mode #lecturesOnSelectedDate p {
             color: #cccccc;
          }
-         body.dark-mode .reminder-item.completed label {
-            color: #777;
+         body.dark-mode .reminder-item label {
+            color: #e0e0e0;
          }
+         body.dark-mode .reminder-item.completed label {
+            color: #999; /* Still lighter grey */
+         }
+          body.dark-mode .reminder-item:hover {
+             background-color: #4f555e; /* Darker hover background */
+          }
 
          body.dark-mode .delete-button {
-             background-color: #994444; /* Darker red */
+             background-color: #a04040; /* Darker red */
              color: #eee;
          }
           body.dark-mode .delete-button:hover {
-             background-color: #aa5555; /* Slightly lighter darker red */
+             background-color: #b05050; /* Slightly lighter darker red */
           }
-
 
     </style>
 </head>
@@ -439,12 +619,12 @@
         <div class="calendar-display">
              <h2>Revision Progress Calendar</h2>
              <div class="calendar-header">
-                 <button id="prevMonth" class="calendar-nav-button">&lt; Prev Month</button>
+                 <button id="prevMonth" class="calendar-nav-button">< Prev Month</button>
                  <h3 id="currentMonthYear">Month Year</h3>
-                 <button id="nextMonth" class="calendar-nav-button">Next Month &gt;</button>
+                 <button id="nextMonth" class="calendar-nav-button">Next Month ></button>
              </div>
              <div id="calendarGrid" class="calendar-grid">
-                 <!-- Calendar headers and days will be generated here -->
+                 <!-- Calendar headers and days will be generated here by JavaScript -->
              </div>
         </div>
 
@@ -511,7 +691,8 @@
                     if (lecture.completed1 === undefined) lecture.completed1 = false;
                     if (lecture.completed2 === undefined) lecture.completed2 = false;
                     if (lecture.completed3 === undefined) lecture.completed3 = false;
-                    if (lecture.id === undefined) lecture.id = Date.now().toString() + Math.random().toString(16).slice(2); // Add a simple ID if missing
+                    // Add a simple ID if missing, ensure it's unique enough
+                    if (lecture.id === undefined) lecture.id = Date.now().toString() + Math.random().toString(36).substr(2, 9); // Use base36 for shorter ID
                     return lecture;
                 });
             } catch (e) {
@@ -554,7 +735,7 @@
             }
 
             const newLecture = {
-                id: Date.now().toString() + Math.random().toString(16).slice(2), // Unique ID
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // Unique ID
                 name: lectureName,
                 entryDate: entryDate,
                 reminderDate1: reminderDate1,
@@ -573,9 +754,15 @@
              const selectedMonth = currentCalendarDate.getMonth();
              const selectedYear = currentCalendarDate.getFullYear();
              const needsCalendarUpdate = addedReminderDates.some(dateStr => {
-                const [year, month, day] = dateStr.split('-').map(Number);
-                // Note: month from split is 1-indexed, Date object month is 0-indexed
-                return year === selectedYear && (month - 1) === selectedMonth;
+                if (!dateStr) return false; // Handle potential null/undefined
+                try { // Add try-catch for date parsing robustness
+                    const [year, month, day] = dateStr.split('-').map(Number);
+                    // Note: month from split is 1-indexed, Date object month is 0-indexed
+                    return year === selectedYear && (month - 1) === selectedMonth;
+                } catch (e) {
+                     console.error("Error parsing date string for calendar update:", dateStr, e);
+                     return false;
+                }
              });
 
              if (needsCalendarUpdate) {
@@ -585,9 +772,17 @@
 
             // Update the display for the currently selected date if necessary
             const selectedDate = document.getElementById('calendarDate').value;
-            if (selectedDate && addedReminderDates.includes(selectedDate)) {
+             // Check if the selected date was affected by the new reminders
+             if (selectedDate && addedReminderDates.includes(selectedDate)) {
                  displayLecturesForDate(selectedDate);
+                  // Re-add the selected class to the calendar day
+                 const selectedDayCell = document.querySelector(`.calendar-day[data-date="${selectedDate}"]`);
+                 if(selectedDayCell) {
+                      // No need to remove previous, renderCalendar does that
+                      selectedDayCell.classList.add('selected');
+                 }
             }
+
 
             lectureNameInput.value = '';
             console.log(`Added: ${newLecture.name}, Reminders: ${newLecture.reminderDate1}, ${newLecture.reminderDate2}, ${newLecture.reminderDate3}`);
@@ -614,7 +809,7 @@
                  }
              });
 
-             // Percentage is 100% if nothing is due
+             // Percentage is 100% if nothing is due, otherwise calculate
              const percentage = totalDue === 0 ? 100 : Math.round((totalCompleted / totalDue) * 100);
 
              return {
@@ -635,7 +830,23 @@
             // Update the hidden date input value
             calendarDateInput.value = dateString;
 
-            selectedDateDisplay.textContent = `Reminders for: ${dateString}`;
+            // Format dateString nicely for display
+            try { // Add try-catch for date parsing robustness
+                const [year, month, day] = dateString.split('-').map(Number);
+                const displayDate = new Date(year, month - 1, day); // Month is 0-indexed
+                 // Check if the date object is valid before formatting
+                 if (isNaN(displayDate.getTime())) {
+                      selectedDateDisplay.textContent = `Reminders for: Invalid Date`;
+                 } else {
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    selectedDateDisplay.textContent = `Reminders for: ${displayDate.toLocaleDateString(undefined, options)}`;
+                 }
+            } catch (e) {
+                 console.error("Error parsing/formatting date string for display:", dateString, e);
+                 selectedDateDisplay.textContent = `Reminders for: Error Displaying Date`;
+            }
+
+
             lecturesListDiv.innerHTML = ''; // Clear current list
 
             const lecturesDueToday = reminders.filter(lecture =>
@@ -645,7 +856,9 @@
             );
 
             if (lecturesDueToday.length === 0) {
-                lecturesListDiv.innerHTML = '<p>No lectures scheduled for this date.</p>';
+                 const p = document.createElement('p');
+                 p.textContent = 'No lectures scheduled for this date.';
+                 lecturesListDiv.appendChild(p);
                 return;
             }
 
@@ -745,18 +958,29 @@
 
                 // Re-render the calendar for the affected month to update the percentage displayed
                 if (dateAffected) {
-                    const [year, month, day] = dateAffected.split('-').map(Number);
-                    const affectedDateObj = new Date(year, month - 1, day);
+                     try { // Add try-catch for date parsing robustness
+                        const [year, month, day] = dateAffected.split('-').map(Number);
+                        // Affected month is 0-indexed for Date object
+                        const affectedDateObj = new Date(year, month - 1, day);
 
-                    if (affectedDateObj.getFullYear() === currentCalendarDate.getFullYear() &&
-                        affectedDateObj.getMonth() === currentCalendarDate.getMonth()) {
-                        renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
-                        // Keep the same date selected in the details pane after re-render
-                         const selectedDate = document.getElementById('calendarDate').value;
-                         if(selectedDate) {
-                             displayLecturesForDate(selectedDate);
-                         }
-                    }
+                        if (affectedDateObj.getFullYear() === currentCalendarDate.getFullYear() &&
+                            affectedDateObj.getMonth() === currentCalendarDate.getMonth()) {
+
+                            const selectedDate = document.getElementById('calendarDate').value; // Get selected date BEFORE rendering
+                            renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+                            // Re-select the previously selected date visually after rendering
+                            if (selectedDate) {
+                                const selectedDayCell = document.querySelector(`.calendar-day[data-date="${selectedDate}"]`);
+                                if(selectedDayCell) {
+                                    document.querySelectorAll('.calendar-day.selected').forEach(cell => cell.classList.remove('selected')); // Remove others just in case
+                                    selectedDayCell.classList.add('selected');
+                                }
+                                // No need to call displayLecturesForDate again, as the details weren't cleared/re-rendered
+                            }
+                        }
+                     } catch (e) {
+                         console.error("Error parsing date string for calendar update after completion change:", dateAffected, e);
+                     }
                 }
 
 
@@ -767,9 +991,12 @@
 
         // Function to delete a lecture by its ID
         function deleteLecture(lectureId) {
-            if (confirm("Are you sure you want to delete this lecture and all its reminders?")) {
+            if (confirm("Are you sure you want to delete this lecture and all its reminders? This cannot be undone.")) {
                 const reminders = loadReminders();
                 const originalReminders = [...reminders]; // Keep a copy to check affected dates
+
+                // Find the lecture to be deleted to get its reminder dates
+                const deletedLecture = originalReminders.find(lecture => lecture.id === lectureId);
 
                 // Filter out the lecture with the matching ID
                 const updatedReminders = reminders.filter(lecture => lecture.id !== lectureId);
@@ -781,9 +1008,11 @@
 
                     // Determine which months might be affected to re-render calendars
                     const affectedDates = [];
-                    const deletedLecture = originalReminders.find(lecture => lecture.id === lectureId);
                     if (deletedLecture) {
-                        affectedDates.push(deletedLecture.reminderDate1, deletedLecture.reminderDate2, deletedLecture.reminderDate3);
+                        // Only add dates that exist for the lecture
+                        if (deletedLecture.reminderDate1) affectedDates.push(deletedLecture.reminderDate1);
+                        if (deletedLecture.reminderDate2) affectedDates.push(deletedLecture.reminderDate2);
+                        if (deletedLecture.reminderDate3) affectedDates.push(deletedLecture.reminderDate3);
                     }
 
                     const selectedDate = document.getElementById('calendarDate').value;
@@ -792,8 +1021,13 @@
 
                     const needsCalendarUpdate = affectedDates.some(dateStr => {
                          if (!dateStr) return false; // Handle potential null/undefined dates
-                         const [year, month, day] = dateStr.split('-').map(Number);
-                         return year === selectedYear && (month - 1) === selectedMonth;
+                         try {
+                            const [year, month, day] = dateStr.split('-').map(Number);
+                            return year === selectedYear && (month - 1) === selectedMonth;
+                         } catch (e) {
+                            console.error("Error parsing date string for calendar update after deletion:", dateStr, e);
+                            return false;
+                         }
                     });
 
 
@@ -802,15 +1036,19 @@
                        renderCalendar(selectedYear, selectedMonth);
                     }
 
-
                     // Re-display details for the current date (list will be updated automatically by displayLecturesForDate)
+                    // If the deleted lecture was the ONLY thing on the selected date, the details pane will update correctly.
                     if (selectedDate) {
                          displayLecturesForDate(selectedDate);
+                         // Re-add the selected class if the date is still in the rendered month
+                         const selectedDayCell = document.querySelector(`.calendar-day[data-date="${selectedDate}"]`);
+                         if(selectedDayCell) {
+                             selectedDayCell.classList.add('selected');
+                         }
                     } else {
-                         // Should not happen, but as fallback
+                         // Fallback, should not happen if a date was selected
                          displayLecturesForDate(getTodayString());
                     }
-
 
                 } else {
                     console.warn(`Lecture with ID ${lectureId} not found for deletion.`);
@@ -825,6 +1063,7 @@
             const calendarGrid = document.getElementById('calendarGrid');
             const currentMonthYearDisplay = document.getElementById('currentMonthYear');
             const todayString = getTodayString();
+            const selectedDate = document.getElementById('calendarDate').value; // Get currently selected date string
 
             currentCalendarDate = new Date(year, month, 1);
             currentMonthYearDisplay.textContent = `${monthNames[month]} ${year}`;
@@ -840,17 +1079,21 @@
             });
 
             const firstDayOfMonth = new Date(year, month, 1);
+            // Use setDate(0) to get the last day of the previous month, then getDate()
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const startingDayOfWeek = firstDayOfMonth.getDay(); // 0 = Sunday
 
-            // Add empty cells
+            // Add empty cells for days before the 1st
             for (let i = 0; i < startingDayOfWeek; i++) {
                 const emptyDiv = document.createElement('div');
                 emptyDiv.classList.add('calendar-day', 'empty');
+                 // Ensure empty cells maintain aspect ratio like others
+                 const aspectRatioDiv = document.createElement('div'); // Use an inner div to maintain aspect ratio?
+                 // Simpler approach: just add the class to the main div and let CSS handle it
                 calendarGrid.appendChild(emptyDiv);
             }
 
-            // Add day cells
+            // Add day cells for each day of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.classList.add('calendar-day');
@@ -863,27 +1106,30 @@
                     dayDiv.classList.add('today');
                 }
 
+                // Add 'selected' class if this is the currently selected date
+                if (dateString === selectedDate) {
+                    dayDiv.classList.add('selected');
+                }
+
+
                 const { total, completed, percentage } = getCompletionStatusForDate(dateString);
 
                 dayDiv.innerHTML = `<span class="day-number">${day}</span>`;
 
                  if (total > 0) {
-                    // Determine percentage class for the day cell and percentage text
+                    // Determine percentage class for the day cell
                      let percentageClass = '';
                      if (percentage === 0) percentageClass = 'percentage-0';
                      else if (percentage > 0 && percentage < 50) percentageClass = 'percentage-low';
                      else if (percentage >= 50 && percentage < 90) percentageClass = 'percentage-mid';
-                     else if (percentage >= 90 && percentage < 100) percentageClass = 'percentage-high'; // High completion before 100
+                     else if (percentage >= 90 && percentage < 100) percentageClass = 'percentage-high';
                      else if (percentage === 100) percentageClass = 'percentage-100';
 
-                     // Add the percentage class to the dayDiv itself for background/border coloring
                      dayDiv.classList.add(percentageClass);
-
-                     // Add the percentage text span
                      dayDiv.innerHTML += `<span class="completion-percentage">${percentage}%</span>`;
 
                  } else {
-                     // If no reminders due, treat as 100% completed (nothing to do)
+                     // If no reminders due, display "0 due" and apply the 100% style
                      dayDiv.classList.add('percentage-100');
                      dayDiv.innerHTML += `<span class="completion-percentage">0 due</span>`;
                  }
@@ -891,14 +1137,62 @@
 
                 calendarGrid.appendChild(dayDiv);
             }
+             // Optional: Add empty cells for days after the last day to fill the last row
+             const totalDaysDisplayed = startingDayOfWeek + daysInMonth;
+             const remainingCells = 42 - totalDaysDisplayed; // Max cells in a 6-week month (6 * 7 = 42)
+             if (remainingCells > 0) {
+                 for (let i = 0; i < remainingCells; i++) {
+                     const emptyDiv = document.createElement('div');
+                     emptyDiv.classList.add('calendar-day', 'empty');
+                     calendarGrid.appendChild(emptyDiv);
+                 }
+             }
+
         }
 
         function navigateMonth(delta) {
              currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
-             renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
-             // After changing month, show details for the 1st of the new month
-             const firstDayOfNewMonthString = formatDateString(new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1));
-             displayLecturesForDate(firstDayOfNewMonthString);
+             const newYear = currentCalendarDate.getFullYear();
+             const newMonth = currentCalendarDate.getMonth();
+
+             // Determine the date to display details for in the new month
+             const selectedDate = document.getElementById('calendarDate').value;
+             let dateToDisplayDetailsFor;
+
+             if (selectedDate) {
+                  try {
+                     const [year, month, day] = selectedDate.split('-').map(Number);
+                     const prevSelectedDateObj = new Date(year, month - 1, day);
+                     // Check if the previously selected day number exists in the new month
+                     const daysInNewMonth = new Date(newYear, newMonth + 1, 0).getDate();
+                     if (prevSelectedDateObj.getDate() <= daysInNewMonth) {
+                         // The previously selected day exists in the new month, use it
+                         dateToDisplayDetailsFor = formatDateString(new Date(newYear, newMonth, prevSelectedDateObj.getDate()));
+                     } else {
+                          // The previously selected day number is too high for the new month (e.g., 31st moving to Feb)
+                          // Default to the last day of the new month
+                         dateToDisplayDetailsFor = formatDateString(new Date(newYear, newMonth, daysInNewMonth));
+                     }
+                  } catch (e) {
+                       console.error("Error parsing selected date during month navigation, defaulting to 1st:", selectedDate, e);
+                       dateToDisplayDetailsFor = formatDateString(new Date(newYear, newMonth, 1));
+                  }
+             } else {
+                 // No date was selected initially, default to 1st
+                 dateToDisplayDetailsFor = formatDateString(new Date(newYear, newMonth, 1));
+             }
+
+
+             renderCalendar(newYear, newMonth);
+             displayLecturesForDate(dateToDisplayDetailsFor);
+
+             // Ensure the dateToDisplayDetailsFor is visually marked as selected after rendering
+             const selectedDayCell = document.querySelector(`.calendar-day[data-date="${dateToDisplayDetailsFor}"]`);
+             if(selectedDayCell) {
+                  // No need to remove previous, renderCalendar clears classes
+                  selectedDayCell.classList.add('selected');
+             }
+
         }
 
 
@@ -934,22 +1228,26 @@
 
             // --- Initialize Dark Mode ---
             const savedMode = localStorage.getItem(DARK_MODE_STORAGE_KEY);
+            // Default to dark mode UNLESS the user has explicitly saved 'disabled'
             if (savedMode === 'disabled') {
                 disableDarkMode();
             } else {
-                enableDarkMode(); // Default to dark mode
+                enableDarkMode(); // This handles both 'enabled' and null (first visit)
             }
             modeToggleButton.addEventListener('click', toggleDarkMode);
 
 
             // --- Initialize Calendar & Details ---
             const today = new Date();
+            const todayString = getTodayString();
+
+            // Set initial date in hidden input and display details for today
+             calendarDateInput.value = todayString;
+            displayLecturesForDate(todayString);
+
+            // Render the calendar for the current month AFTER setting the initial selected date
             renderCalendar(today.getFullYear(), today.getMonth());
 
-            // Set the hidden date input to today and display details for today initially
-            const todayString = getTodayString();
-            calendarDateInput.value = todayString;
-            displayLecturesForDate(todayString);
 
             // Add event listeners for calendar navigation
             prevMonthButton.addEventListener('click', () => navigateMonth(-1));
@@ -960,6 +1258,14 @@
                  const targetDay = event.target.closest('.calendar-day');
                  if (targetDay && !targetDay.classList.contains('empty')) {
                      const dateString = targetDay.dataset.date;
+
+                     // Remove 'selected' class from previously selected day
+                     document.querySelectorAll('.calendar-day.selected').forEach(cell => cell.classList.remove('selected'));
+
+                     // Add 'selected' class to the newly selected day
+                     targetDay.classList.add('selected');
+
+                     // Display lectures for the selected date
                      displayLecturesForDate(dateString);
                  }
             });
@@ -1003,6 +1309,5 @@
 
     </script>
 
-</body>
 </body>
 </html>
